@@ -2,3 +2,218 @@ img {
     height: 20px;
     width: 20px;
 }
+
+#navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333; /* This is your solid color */
+    padding: 10px 0;
+  }
+  
+  #navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 15px;
+  }
+  
+  #navbar a:hover {
+    background-color: #555; /* Slightly lighter color on hover */
+  }
+  
+  /* Optional: Add a responsive breakpoint */
+  @media (max-width: 768px) {
+    #navbar {
+      flex-direction: column;
+    }
+  
+    #navbar a {
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
+  }
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+#newUserSignUp {
+    text-align: center; /* Centers the text inside the h1 element */
+  }
+  
+/* Style the forms */
+form {
+max-width: 300px;
+margin: 20px auto;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+input[type="text"],
+input[type="submit"] {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ddd;
+border-radius: 5px;
+box-sizing: border-box; /* To make sure padding does not increase the width */
+}
+
+input[type="submit"] {
+background-color: #4CAF50; /* Primary action color */
+color: white;
+border: none;
+cursor: pointer;
+}
+
+input[type="submit"]:hover {
+background-color: #45a049;
+}
+
+#userList {
+    margin-left: 30px;
+}
+
+/* Style the user details */
+.user-container {
+max-width: 300px;
+margin: 20px auto;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 5px;
+text-align: center; /* Center the content */
+}
+
+.user-container h1 {
+font-size: 24px;
+color: #333;
+}
+
+.user-container img {
+max-width: 100%; /* Make sure the image is not bigger than its container */
+border-radius: 50%; /* Circular images */
+margin: 10px 0;
+}
+
+.user-profile {
+display: flex;
+align-items: flex-start; /* Align the items at the top */
+gap: 20px; /* Space between image and details */
+margin: 20px;
+}
+
+.user-image img {
+width: 300px; /* Adjust as needed */
+height: auto; /* Maintain aspect ratio */
+border-radius: 50%; /* Circular image */
+}
+
+.user-info {
+flex-grow: 1;
+}
+
+.user-actions {
+display: flex;
+gap: 10px;
+margin-top: 20px;
+}
+
+.button {
+    padding: 8px 15px; /* Adjust padding to control the button size */
+    border: none;
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+    border-radius: 5px;
+    background-color: #f44336; /* Delete button color */
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center; /* Center text in buttons */
+  }
+  
+  .button.edit {
+    background-color: #008CBA; /* Edit button color */
+  }
+
+  
+/* Ensure that the buttons are next to each other with a small gap */
+.user-actions {
+display: flex;
+gap: 10px;
+}
+
+/* Additional button hover effect */
+.button:hover {
+opacity: 0.8;
+}
+
+/* If buttons are still too big, you can adjust the font size to make them look smaller */
+.button {
+font-size: 14px; /* Smaller font size for the buttons */
+}
+
+/* Adjust the user-actions container to ensure buttons are side by side */
+.user-actions {
+display: flex;
+gap: 10px;
+margin-top: 20px;
+}
+
+/* Align the list of users in a grid */
+.user-list {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 20px;
+padding: 20px;
+}
+
+.user-list li {
+list-style: none;
+}
+
+/* Additional global styling */
+ul {
+padding: 0;
+}
+
+a {
+text-decoration: none;
+color: inherit;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+form,
+.user-container {
+    width: 90%;
+    margin: 20px auto;
+}
+}
+
+.form-input {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ddd;
+border-radius: 5px;
+box-sizing: border-box; /* To make sure padding does not increase the width */
+}
+
+.form-button {
+width: 10%;
+padding: 10px;
+margin: 10px 0;
+background-color: #4CAF50; /* Primary action color */
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.form-button:hover {
+background-color: #45a049;
+}

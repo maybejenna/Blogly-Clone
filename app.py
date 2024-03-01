@@ -20,8 +20,7 @@ debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def home():
-    """List users and show add form."""
-    return "<p> Welcome. It's Working</p> "
+    return render_template("home.html")
 
 @app.route("/users")
 def list_users():
@@ -85,3 +84,57 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('list_users'))
+
+
+@app.route("/users/<int:user_id>/posts/new", methods=["GET", "POST"])
+def add_post(user_id):
+    """Show form to add a post for that user and handle the form submission."""
+    user = Users.query.get_or_404(user_id)
+
+    if request.method == "POST":
+        title = request.form['title']
+        content = request.form['content']
+        new_post = Post(title=title, content=content, user_id=user.id)
+
+        db.session.add(new_post)
+        db.session.commit()
+
+        return redirect(url_for('show_individual_user', user_id=user.id))
+    
+    return render_template("add_post.html", user=user)
+
+@app.route("/posts")
+def show_all_posts():
+    """Show a post."""
+    post = Post.query.getall(post_id)
+    return render_template("post_list.html", post=post)
+
+
+@app.route("/posts/<int:post_id>")
+def show_post(post_id):
+    """Show a post."""
+    post = Post.query.get_or_404(post_id)
+    return render_template("post_detail.html", post=post)
+
+@app.route("/posts/<int:post_id>/edit", methods=["GET", "POST"])
+def edit_post(post_id):
+    """Show form to edit a post and handle the form submission."""
+    post = Post.query.get_or_404(post_id)
+
+    if request.method == "POST":
+        post.title = request.form['title']
+        post.content = request.form['content']
+        db.session.commit()
+
+        return redirect(url_for('show_post', post_id=post.id))
+    
+    return render_template("edit_post.html", post=post)
+
+@app.route("/posts/<int:post_id>/delete", methods=["POST"])
+def delete_post(post_id):
+    """Delete a post."""
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('list_users'))
+

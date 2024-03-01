@@ -1,0 +1,32 @@
+services:
+  
+  postgres:
+    image: postgres:16.1-bookworm
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: super_strong_password
+      POSTGRES_DB: amazing_db
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 8091:8080
+
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    # flask requires SIGINT to stop gracefully
+    # (default stop signal from Compose is SIGTERM)
+    stop_signal: SIGINT
+    ports:
+      - 5000:5000
+    volumes:
+      - ./code:/code
+    depends_on:
+      - postgres
+    environment:
+      - FLASK_DEBUG=True
+    command: flask run --host=0.0.0.0 

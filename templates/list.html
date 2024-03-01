@@ -3,19 +3,21 @@
 {% block title %}User's Story{% endblock%}
 
 {% block content %}
-<h1>Users</h1>
-<ul>
-  {% for user in users %}
-  <li>
-    <a href="/users/{{ user.id }}">
-    <img src="{{ url_for('static', filename=user.img_url) }}" alt="User Image">
-      {{ user.username }} | {{ user.first_name }} | {{ user.last_name }}
-    </a>
-  </li>
-  {% endfor %}
-</ul>
+<div id="userList">
+  <h1>Our Users</h1>
+  <ul>
+    {% for user in users %}
+    <li>
+      <a href="/users/{{ user.id }}">
+      <img src="{{ url_for('static', filename=user.img_url) }}" alt="User Image">
+        {{ user.username }} | {{ user.first_name }} | {{ user.last_name }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
-<form action="/users">
+<form action="/users/new">
     <input type="submit" value="Add New User" />
 </form>
 {% endblock %}

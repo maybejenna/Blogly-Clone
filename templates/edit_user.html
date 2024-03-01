@@ -9,5 +9,6 @@
   <input type="text" name="img_url" value="{{ user.img_url }}">
   <button type="submit">Save</button>
 </form>
-<button onclick="window.location.href = '{{ url_for(/users/<int:user_id>, user_id=user.id) }}';">Cancel</button>
+<!-- Corrected Cancel button to redirect to the edit page of the specific user -->
+<button onclick="window.location.href = '{{ url_for('show_individual_user', user_id=user.id) }}';">Cancel</button>
 {% endblock %}
