@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}User Page{% endblock %}
+
+{% block content %}
+<h1 id ="newUserSignUp">New User Sign Up</h1>
+<form method="POST" action="{{ url_for('new_user') }}">
+    <input class="form-input" type="text" name="username" placeholder="username" required>
+    <input class="form-input" type="text" name="first_name" placeholder="first name" required>
+    <input class="form-input" type="text" name="last_name" placeholder="last name" required>
+    <input class="form-input" type="text" name="img_url" placeholder="profile picture link">
+    <input class="form-button" type="submit" value="Add New User">
+</form>
+{% endblock %}

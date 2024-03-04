@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+
+{% block title %}User's Story{% endblock%}
+
+{% block content %}
+<div id="userList">
+  <h1>Our Users</h1>
+  <ul>
+    {% for user in users %}
+    <li>
+      <a href="{{ url_for('show_individual_user', user_id=user.id) }}">
+      {% if user.img_url.startswith('http://') or user.img_url.startswith('https://') %}
+        <img src="{{ user.img_url }}" alt="User Image">
+      {% else %}
+        <img src="{{ url_for('static', filename=user.img_url) }}" alt="User Image">
+      {% endif %}
+        {{ user.username }} | {{ user.first_name }} | {{ user.last_name }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<form action="/users/new">
+    <input type="submit" value="Add New User" />
+</form>
+{% endblock %}

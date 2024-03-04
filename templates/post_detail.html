@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+  <h1>{{ post.title }}</h1>
+  <p><strong>Author:</strong> <a href="{{ url_for('show_individual_user', user_id=post.user.id) }}">{{ post.user.username }}</a></p>
+  <p><strong>Posted on:</strong> {{ post.post_date.strftime('%Y-%m-%d') }}</p>
+  <div class="post-content">
+    {{ post.content | safe }}
+  </div>
+  
+  <h2>Comments</h2>
+  {% if post.comments|length > 0 %}
+  <ul class="comments-list">
+    {% for comment in post.comments %}
+    <li>
+      <!-- Corrected from user.id to comment.user.id -->
+      <strong><a href="{{ url_for('show_individual_user', user_id=comment.user.id) }}">{{ comment.user.username }}</a>:</strong>
+      {{ comment.content }}
+      <br>
+      <small>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No comments yet.</p>
+  {% endif %}
+  
+</div>
+{% endblock %}
