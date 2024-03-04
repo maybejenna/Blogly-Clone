@@ -10,6 +10,42 @@
   <div class="post-content">
     {{ post.content | safe }}
   </div>
+  <div class="post-tags">
+    <h2>Tags:</h2>
+    {% for tag in post.tags %}
+      <a href="{{ url_for('tag_detail', tag_id=tag.id) }}" class="tag">{{ tag.name }}</a>
+    {% endfor %}
+
+    <!-- Button to open the tag modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagModal">
+    Add/Edit Tags
+</button>
+
+<!-- Tag Modal -->
+<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="tagModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <!-- ... existing modal content ... -->
+        <!-- Add new tag form -->
+        <form action="{{ url_for('add_tag_to_post', post_id=post.id) }}" method="POST">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="new-tag-name">New Tag Name:</label>
+              <input type="text" class="form-control" id="new-tag-name" name="new_tag_name" required>
+            </div>
+            <!-- Existing tags checkboxes -->
+            <!-- ... existing checkbox content ... -->
+          </div>
+          <div class="modal-footer">
+            <!-- ... existing modal footer buttons ... -->
+            <button type="submit" class="btn btn-success">Add Tag</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+  </div>
 
   <div class="post-actions">
     <a href="{{ url_for('show_edit_post_form', post_id=post.id) }}" class="button edit">Edit Post</a>
@@ -18,10 +54,12 @@
     </form>
   </div>
 
+  </div>
+
   
-  <h2>Comments</h2>
   {% if post.comments|length > 0 %}
   <ul class="comments-list">
+    <h2>Comments</h2>
     {% for comment in post.comments %}
     <li>
       <!-- Corrected from user.id to comment.user.id -->

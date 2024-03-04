@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, request, redirect, render_template, url_for, flash
-from models import db, connect_db, Users, Posts, Comment
+from models import db, connect_db, Users, Posts, Comment, Tag, PostTag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -20,6 +20,7 @@ debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def home():
+    
     recent_posts = Posts.query.order_by(Posts.post_date.desc()).limit(5).all()
     return render_template("home.html", recent_posts=recent_posts)
 
@@ -112,6 +113,8 @@ def add_post(user_id):
     content = request.form['content']
     # If using hidden input for user_id, you can directly use the user_id parameter from the route.
     new_post = Posts(title=title, content=content, user_id=user_id)
+    selected_tags = request.form.getlist('tags') 
+    new_post.tags = [Tag.query.get(tag_id) for tag_id in selected_tags]
 
     db.session.add(new_post)
     db.session.commit()
@@ -130,6 +133,9 @@ def edit_post(post_id):
     post = Posts.query.get_or_404(post_id)
     post.title = request.form.get('title')
     post.content = request.form.get('content')
+    selected_tags = request.form.getlist('tags')  # Assuming 'tags' is the name of your input field for tags
+    new_post.tags = [Tag.query.get(tag_id) for tag_id in selected_tags]
+    db.session.commit()
     db.session.commit()
     return redirect(url_for('show_post', post_id=post_id))
 
@@ -145,3 +151,47 @@ def delete_post(post_id):
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
+
+@app.route("/tags")
+def list_tags():
+    tags = Tag.query.all()
+    return render_template("list_tags.html", tags=tags)
+
+@app.route("/tags/<int:tag_id>")
+def tag_detail(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    return render_template("tag_detail.html", tag=tag)
+
+@app.route('/posts/<int:post_id>/add_tag', methods=['POST'])
+def add_tag_to_post(post_id):
+    post = Posts.query.get_or_404(post_id)
+    new_tag_name = request.form['new_tag_name']
+    db.session.commit()
+    flash('New tag added successfully!', 'success')
+    return redirect(url_for('show_post', post_id=post_id))
+
+@app.route("/tags/new", methods=["GET", "POST"])
+def new_tag():
+    if request.method == "POST":
+        name = request.form["name"]
+        tag = Tag(name=name)
+        db.session.add(tag)
+        db.session.commit()
+        return redirect(url_for("list_tags"))
+    return render_template("new_tag.html")
+
+@app.route("/tags/<int:tag_id>/edit", methods=["GET", "POST"])
+def edit_tag(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    if request.method == "POST":
+        tag.name = request.form["name"]
+        db.session.commit()
+        return redirect(url_for("list_tags"))
+    return render_template("edit_tag.html", tag=tag)
+
+@app.route("/tags/<int:tag_id>/delete", methods=["POST"])
+def delete_tag(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect(url_for("list_tags"))

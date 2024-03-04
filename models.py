@@ -62,3 +62,22 @@ class Comment(db.Model):
 
     user = db.relationship('Users', back_populates='comments')
     post = db.relationship('Posts', back_populates='comments')
+
+class Tag(db.Model):
+    """Tag that can be added to posts."""
+
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False, unique=True)
+
+    posts = db.relationship('Posts', secondary="post_tags", backref="tags")
+
+
+class PostTag(db.Model):
+    """Association table between posts and tags."""
+
+    __tablename__ = "post_tags"
+
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key=True)

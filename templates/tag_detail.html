@@ -1,11 +1,12 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
-{% block title %}All Posts{% endblock %}
+{% block title %}Tag: {{ tag.name }}{% endblock %}
 
 {% block content %}
-<ul class="post-list">
-    <h1>All Posts</h1>
-    {% for post in posts %}
+<div class="tag-details">
+  <h1>Posts tagged with "{{ tag.name }}"</h1>
+  <ul class="tagged-posts-list">
+    {% for post in tag.posts %}
     <li class="post-item">
         <div class="post-title">
             <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
@@ -24,7 +25,8 @@
         <div class="post-content">{{ post.content }}</div>
     </li>
     {% else %}
-    <li>No posts found.</li>
+      <li>No posts found for this tag.</li>
     {% endfor %}
-</ul>
+  </ul>
+</div>
 {% endblock %}

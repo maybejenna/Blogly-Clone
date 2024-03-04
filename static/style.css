@@ -115,10 +115,12 @@ margin: 20px;
 width: 300px; /* Adjust as needed */
 height: auto; /* Maintain aspect ratio */
 border-radius: 50%; /* Circular image */
+margin-left: 40px;
 }
 
 .user-info {
-flex-grow: 0.2;
+flex-grow: 0.1;
+margin-left: 30px;
 }
 
 .user-actions {
@@ -169,6 +171,8 @@ margin-top: 20px;
 .button.edit {
     background-color: #17a2b8; /* Bootstrap's info (light blue) */
     color: white;
+    height: 40px;
+    margin: 5px;
 }
 
 button.button.delete {
@@ -211,6 +215,7 @@ button.button.delete {
 
 .recent-posts ul {
     padding: 0px;
+    margin-right: 40px;
 }
 
 .post-list {
@@ -277,14 +282,19 @@ button.button.delete {
 .comments-list h2 {
     font-size: 22px;
     color: #343a40;
+    margin: auto;
+    width: 60%;
 }
 
 .comments-list li {
+    list-style: none;
     background-color: #f8f9fa;
     padding: 15px;
     margin-bottom: 20px;
     border-left: 4px solid #007bff;
     border-radius: 5px;
+    margin: auto;
+    width: 60%;
 }
 
 .comment-author {
@@ -303,7 +313,7 @@ button.button.delete {
 }
 
 a, a:visited {
-    color: #007bff;
+    color: #ffc107;
 }
 
 a:hover {
@@ -337,4 +347,26 @@ textarea {
 
 #userList ul{
     padding: 0;
+}
+
+/* Tag Styles  */
+
+.post-tags {
+    margin-top: 15px;
+    font-size: smaller;
+}
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.tag:hover {
+    opacity: 0.7;
 }
