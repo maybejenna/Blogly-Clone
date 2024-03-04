@@ -12,15 +12,19 @@
 </head>
 <body>
     <div id="navbar">
+        <div class="title" id="title">
+            <h1>Blogly Clone</h1>
+        </div>
         <a href="/">Home</a>
         <a href="/users">Show All Users</a>
         <a href="/users/new">Add New User</a>
         <a href="/posts"> All Posts</a>
+        <form action="/search" method="GET" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
      </div>
-    <div class="title" id="title">
-        <h1>Blogly Clone</h1>
-        <p>This page is working</p>
-    </div>
+
     <div class="content" id="content">
         {% block content %}
 

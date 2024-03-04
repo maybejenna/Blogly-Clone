@@ -20,9 +20,10 @@ debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def home():
-    
+
+    users = Users.query.all()
     recent_posts = Posts.query.order_by(Posts.post_date.desc()).limit(5).all()
-    return render_template("home.html", recent_posts=recent_posts)
+    return render_template("home.html", recent_posts=recent_posts, users=users)
 
 @app.route("/users")
 def list_users():
@@ -133,7 +134,7 @@ def edit_post(post_id):
     post = Posts.query.get_or_404(post_id)
     post.title = request.form.get('title')
     post.content = request.form.get('content')
-    selected_tags = request.form.getlist('tags')  # Assuming 'tags' is the name of your input field for tags
+    selected_tags = request.form.getlist('tags') 
     new_post.tags = [Tag.query.get(tag_id) for tag_id in selected_tags]
     db.session.commit()
     db.session.commit()
@@ -195,3 +196,23 @@ def delete_tag(tag_id):
     db.session.delete(tag)
     db.session.commit()
     return redirect(url_for("list_tags"))
+
+@app.route("/search")
+def search():
+    query = request.args.get('q')
+
+    # Search for matching users
+    matching_users = Users.query.filter(Users.username.ilike(f'%{query}%')).all()
+
+    # Search for matching tags
+    matching_tags = Tag.query.filter(Tag.name.ilike(f'%{query}%')).all()
+
+    # Search for matching posts (by title or content)
+    matching_posts = Posts.query.filter(
+        db.or_(
+            Posts.title.ilike(f'%{query}%'), 
+            Posts.content.ilike(f'%{query}%')
+        )
+    ).all()
+
+    return render_template("search_results.html", query=query, users=matching_users, tags=matching_tags, posts=matching_posts)

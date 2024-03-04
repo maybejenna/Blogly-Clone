@@ -42,7 +42,10 @@ body {
 }
 
 .title {
-    margin-left: 100px;
+    margin-left: 70px;
+    font-weight: 800;
+    color: aliceblue;
+
 }
 
 #newUserSignUp {
@@ -190,11 +193,17 @@ button.button.delete {
 .button.add {
     background-color: #007bff; /* Bootstrap's primary (blue) */
     color: white;
+    padding: 10px 20px;
+    height: 40px;
+    margin: 5px;
 }
 
 .button.back {
     background-color: #ffc107; /* Bootstrap's warning (yellow) */
     color: black;
+    padding: 10px 20px;
+    height: 40px;
+    margin: 5px;
 }
 
 /* Hover effects for all buttons */
@@ -369,4 +378,88 @@ textarea {
 
 .tag:hover {
     opacity: 0.7;
+}
+
+/* homepage styles  */
+
+.page-layout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-content, .right-content {
+    flex: 1;
+    width: 70%;
+    margin-left: 150px ;
+}
+
+.right-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0 ;
+    margin-right: 150px ;
+}
+
+.home-page-post-container, .home-page-new-user-container, .home-page-list-user-container {
+    margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+#home-welcome {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    margin: auto; 
+    width: 85%;
+}
+
+/* Style for the search form container */
+.form-inline {
+    display: flex;
+    align-items: center; 
+    padding: 0;
+    margin: 0; 
+    background-color: transparent;
+    border-color: transparent; 
+  }
+  
+  /* Style the input field */
+  .form-inline .form-control {
+    flex-grow: 1; 
+    margin-right: -1px; 
+    border: 0; 
+    outline: 0;
+    border-radius: 0;
+    border-color: transparent; 
+  }
+  
+  /* Style the button */
+  .form-inline .btn {
+    padding: 0.375rem 0.75rem; 
+    margin: 0; 
+    border: 0; 
+    outline: 0; 
+    border-radius: 0.2; 
+  }
+
+  .form-inline .form-control + .btn {
+    margin-left: 0;
+  }
+  
+
+  .form-inline .form-control {
+    background-color: #fff; 
+    padding: 0.375rem 0.75rem; 
+  }
+  
+  .form-inline .btn {
+    background-color: #28a745; 
+    color: #fff;
+  }
+
+
+
+
+.content {
+    margin: auto;
+    width: 85%;
+    padding-top: 45px;
 }

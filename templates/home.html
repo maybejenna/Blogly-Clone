@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="home-welcome"> 
+    <h1>Welcome to Blogly: Your Gateway to Stories That Matter</h1>
+    <p>Discover. Create. Connect. 
+        <br>
+        At Blogly, we believe that every story has the power to inspire, educate, and connect us. 
+        Our platform is more than just a collection of blogs—it's a vibrant community where voices from around the globe converge to share insights, experiences, and perspectives. 
+        Whether you're seeking to broaden your horizons, find solace in shared experiences, or simply indulge in the joy of reading, Blogly is your sanctuary.</p>    
+</div>
+
+<div class="page-layout">
 <div class="home-page-post-container">
-  <h1>Recent Posts</h1>
+    <div class="left-content">
+    <h2>Recent Posts</h2>
     {% for post in recent_posts %}
     <li class="post-item">
         <div class="post-title">
@@ -25,4 +36,42 @@
     <li>No posts found.</li>
     {% endfor %}
 </div>
+    </div>
+
+<div class="right-content">
+<div class="home-page-new-user-container"> 
+    <h2 id ="newUserSignUp">New User Sign Up</h2>
+<form method="POST" action="{{ url_for('new_user') }}">
+    <input class="form-input" type="text" name="username" placeholder="username" required>
+    <input class="form-input" type="text" name="first_name" placeholder="first name" required>
+    <input class="form-input" type="text" name="last_name" placeholder="last name" required>
+    <input class="form-input" type="text" name="img_url" placeholder="profile picture link">
+    <input class="form-button" type="submit" value="Add New User">
+</form>
+</div>
+
+<div class="home-page-list-user-container"> 
+<div id="userList">
+    <h2>Our Users</h2>
+    <ul>
+      {% for user in users %}
+      <li>
+        <a href="{{ url_for('show_individual_user', user_id=user.id) }}">
+        {% if user.img_url.startswith('http://') or user.img_url.startswith('https://') %}
+          <img src="{{ user.img_url }}" alt="User Image">
+        {% else %}
+          <img src="{{ url_for('static', filename=user.img_url) }}" alt="User Image">
+        {% endif %}
+          {{ user.username }} | {{ user.first_name }} | {{ user.last_name }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  </div>
+
+  </div>
+
+</div>
+
 {% endblock %}
