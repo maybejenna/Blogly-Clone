@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="user-profile">
+<div class="user-profile-container">
   <div class="user-image">
     {% if user.img_url.startswith('http://') or user.img_url.startswith('https://') %}
       <img src="{{ user.img_url }}" alt="User Image">
@@ -15,6 +15,13 @@
     <p><strong>First Name:</strong> {{ user.first_name }}</p>
     <p><strong>Last Name:</strong> {{ user.last_name }}</p>
 
+    <div class="user-actions">
+        <a href="{{ url_for('show_edit_page', user_id=user.id) }}" class="button edit">Edit User</a>
+        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+            <button type="submit" class="button delete">Delete User</button>
+        </form>
+    </div>
+
     <h2>Posts</h2>
     <ul>
       {% for post in user.posts %}
@@ -22,12 +29,36 @@
       {% endfor %}
     </ul>
 
-    <div class="user-actions">
-      <a href="{{ url_for('show_edit_page', user_id=user.id) }}" class="button edit">Edit</a>
-      <a href="{{ url_for('delete_user', user_id=user.id) }}" class="button delete" method="POST" onsubmit="return confirm('Are you sure?');">Delete</a>
+    <a href="{{ url_for('list_users') }}" class="button back">Back to User List</a>
+
     </div>
 
-    <a href="{{ url_for('list_users') }}" class="button back">Back to User List</a>
+
+    <div class="recent-posts">
+    <h2>Recent Posts</h2>
+    <div class="add-post-link">
+        <a href="{{ url_for('show_add_post_form', user_id=user.id) }}" class="button add">Add New Post</a>
+      </div>
+    <ul>
+        {% for post in recent_posts %}
+        <li class="post-item">
+            <div class="post-title">
+                <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
+            </div>
+            <div class="post-meta">
+                by 
+                <a href="{{ url_for('show_individual_user', user_id=post.user.id) }}">{{ post.user.username }}</a> on {{ post.post_date.strftime('%Y-%m-%d') }}
+                <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.comments|length }} Comments</a>
+            </div>
+            <div class="post-content">{{ post.content }}</div>
+        </li>
+        {% else %}
+        <li>No posts found.</li>
+        {% endfor %}
+    </ul>
+    </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}

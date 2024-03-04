@@ -24,9 +24,9 @@ class Users(db.Model):
                            nullable=False)
     last_name = db.Column(db.String(30), nullable=True)
     img_url = db.Column(db.String, default="images/default_user_img.png")
-    
 
-    posts = db.relationship('Posts', backref='user', lazy=True)
+
+    posts = db.relationship('Posts', backref='user', lazy=True, cascade="all, delete-orphan")
     comments = db.relationship('Comment', back_populates='user')
 
     def __repr__(self):
@@ -45,7 +45,7 @@ class Posts(db.Model):
     content = db.Column(db.String(), nullable=False)
     post_date = db.Column(db.DateTime, server_default=db.func.now())
 
-    comments = db.relationship('Comment', back_populates='post')
+    comments = db.relationship('Comment', back_populates='post', cascade="all, delete-orphan")
 
     def __repr__(self):
         """Show info about post."""

@@ -1,8 +1,22 @@
-{% extends 'base.html'%}
-
-{% block title %}Home Page{% endblock%}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Blogly</h1>
-<p> Welcome to Blogly! --- A Blog Website</p>
+<div class="home-page-post-container">
+  <h1>Recent Posts</h1>
+    {% for post in recent_posts %}
+    <li class="post-item">
+        <div class="post-title">
+            <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
+        </div>
+        <div class="post-meta">
+            by 
+            <a href="{{ url_for('show_individual_user', user_id=post.user.id) }}">{{ post.user.username }}</a> on {{ post.post_date.strftime('%Y-%m-%d') }}
+            <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.comments|length }} Comments</a>
+        </div>
+        <div class="post-content">{{ post.content }}</div>
+    </li>
+    {% else %}
+    <li>No posts found.</li>
+    {% endfor %}
+</div>
 {% endblock %}

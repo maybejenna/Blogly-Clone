@@ -118,7 +118,7 @@ border-radius: 50%; /* Circular image */
 }
 
 .user-info {
-flex-grow: 1;
+flex-grow: 0.2;
 }
 
 .user-actions {
@@ -126,92 +126,92 @@ display: flex;
 gap: 10px;
 margin-top: 20px;
 }
+
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust space between buttons */
+}
+
+.post-actions form {
+    margin: 0; /* Remove any default margin */
+    padding: 0; /* Remove any default padding */
+    background: none; /* Ensure no background is applied */
+    border: none; /* Ensure no border is applied */
+    display: inline; /* Align with other inline elements */
+}
+
 
 .button {
-    padding: 8px 15px; /* Adjust padding to control the button size */
+    display: inline-block;
+    padding: 10px 20px;
+    height: 20px;
+    margin: 5px;
+    font-size: 16px;
     border: none;
-    margin-top: 10px; 
-    margin-bottom: 10px; 
     border-radius: 5px;
-    background-color: #f44336; /* Delete button color */
-    color: white;
     cursor: pointer;
     text-decoration: none;
-    text-align: center; /* Center text in buttons */
-  }
-  
-  .button.edit {
-    background-color: #008CBA; /* Edit button color */
-  }
-
-  
-/* Ensure that the buttons are next to each other with a small gap */
-.user-actions {
-display: flex;
-gap: 10px;
+    text-align: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
 }
 
-/* Additional button hover effect */
+.user-actions form, .post-actions form {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: inline; 
+}
+
+/* Specific styles for action buttons */
+.button.edit {
+    background-color: #17a2b8; /* Bootstrap's info (light blue) */
+    color: white;
+}
+
+button.button.delete {
+    background-color: #dc3545; /* Bootstrap's danger (red) */
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    height: 40px;
+    margin: 5px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.button.add {
+    background-color: #007bff; /* Bootstrap's primary (blue) */
+    color: white;
+}
+
+.button.back {
+    background-color: #ffc107; /* Bootstrap's warning (yellow) */
+    color: black;
+}
+
+/* Hover effects for all buttons */
 .button:hover {
-opacity: 0.8;
+    opacity: 0.8;
 }
 
-/* Adjust the user-actions container to ensure buttons are side by side */
-.user-actions {
-display: flex;
-gap: 10px;
-margin-top: 20px;
-}
-
-/* Align the list of users in a grid */
-#userList {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-gap: 20px;
-padding: 20px;
-margin-left: 300px;
-}
-
-.userList li {
-list-style: none;
-}
-
-/* Additional global styling */
-ul {
-padding: 0;
-}
-
-a {
-text-decoration: none;
-color: inherit;
-}
-
-.form-input {
-width: 100%;
-padding: 10px;
-margin: 10px 0;
-border: 1px solid #ddd;
-border-radius: 5px;
-box-sizing: border-box; /* To make sure padding does not increase the width */
-}
-
-.form-button {
-width: 10%;
-padding: 10px;
-margin: 10px 0;
-background-color: #4CAF50; /* Primary action color */
-color: white;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-}
-
-.form-button:hover {
-background-color: #45a049;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .button {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
 
 
 /* Post Design */
+
+.recent-posts ul {
+    padding: 0px;
+}
 
 .post-list {
     list-style-type: none;
@@ -223,6 +223,7 @@ background-color: #45a049;
     border: 1px solid #ddd;
     margin-bottom: 20px;
     padding: 20px;
+    list-style: none;
 }
 
 .post-title {
@@ -233,7 +234,7 @@ background-color: #45a049;
 
 /* post_details styles  */
 .container {
-    max-width: 600px; /* Smaller width for more focus */
+    max-width: 500px; /* Smaller width for more focus */
     margin: 20px auto; /* Auto margins for centering, reduced vertical margin */
     background: #fff;
     padding: 40px; /* Increased padding for more space around the content */
@@ -307,4 +308,33 @@ a, a:visited {
 
 a:hover {
     color: #0056b3;
+}
+
+textarea {
+    width: 300px;
+    height: 150px;
+  }
+
+.user-profile-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-details, .recent-posts {
+    flex: 1;
+}
+
+.home-page-post-container, .post-list {
+    width: 70%;
+    margin: auto;
+}
+
+#userList{
+    margin: auto;
+    width: fit-content;
+    justify-self: center;
+}
+
+#userList ul{
+    padding: 0;
 }

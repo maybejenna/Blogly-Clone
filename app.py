@@ -1,6 +1,6 @@
 """Blogly application."""
 
-from flask import Flask, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template, url_for, flash
 from models import db, connect_db, Users, Posts, Comment
 
 app = Flask(__name__)
@@ -20,7 +20,8 @@ debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    recent_posts = Posts.query.order_by(Posts.post_date.desc()).limit(5).all()
+    return render_template("home.html", recent_posts=recent_posts)
 
 @app.route("/users")
 def list_users():
@@ -54,9 +55,9 @@ def new_user():
 
 @app.route("/users/<int:user_id>")
 def show_individual_user(user_id):
-    """Show details for a single user."""
     user = Users.query.get_or_404(user_id)
-    return render_template("individual_user.html", user=user)
+    recent_posts = Posts.query.filter_by(user_id=user_id).order_by(Posts.post_date.desc()).limit(3).all()
+    return render_template("individual_user.html", user=user, recent_posts=recent_posts)
 
 
 @app.route("/users/<int:user_id>/edit", methods=["GET"])
@@ -85,24 +86,6 @@ def delete_user(user_id):
     db.session.commit()
     return redirect(url_for('list_users'))
 
-
-@app.route("/posts/new", methods=["GET", "POST"])
-def add_post(user_id):
-    """Show form to add a post for that user and handle the form submission."""
-    user = Users.query.get_or_404(user_id)
-
-    if request.method == "POST":
-        title = request.form['title']
-        content = request.form['content']
-        new_post = Posts(title=title, content=content, user_id=user.id)
-
-        db.session.add(new_post)
-        db.session.commit()
-
-        return redirect(url_for('show_individual_user', user_id=user.id))
-    
-    return render_template("add_post.html", user=user)
-
 @app.route('/posts')
 def show_posts():
     # Query for all posts
@@ -117,4 +100,48 @@ def show_post(post_id):
     post = Posts.query.get_or_404(post_id)
     return render_template("post_detail.html", post=post)
 
+@app.route("/users/<int:user_id>/posts/new", methods=["GET"])
+def show_add_post_form(user_id):
+    """Show form to add a post for that user."""
+    user = Users.query.get_or_404(user_id)
+    return render_template("add_post.html", user=user)
 
+@app.route("/users/<int:user_id>/posts/new", methods=["POST"])
+def add_post(user_id):
+    title = request.form['title']
+    content = request.form['content']
+    # If using hidden input for user_id, you can directly use the user_id parameter from the route.
+    new_post = Posts(title=title, content=content, user_id=user_id)
+
+    db.session.add(new_post)
+    db.session.commit()
+
+    flash('New post added successfully!', 'success')
+    return redirect(url_for("show_individual_user", user_id=user_id))
+
+@app.route('/posts/<int:post_id>/edit', methods=['GET'])
+def show_edit_post_form(post_id):
+    post = Posts.query.get_or_404(post_id)
+    return render_template('edit_post_form.html', post=post)
+
+# Route to handle the form submission
+@app.route('/posts/<int:post_id>/edit', methods=['POST'])
+def edit_post(post_id):
+    post = Posts.query.get_or_404(post_id)
+    post.title = request.form.get('title')
+    post.content = request.form.get('content')
+    db.session.commit()
+    return redirect(url_for('show_post', post_id=post_id))
+
+@app.route("/posts/<int:post_id>/delete", methods=["POST"])
+def delete_post(post_id):
+    """Delete the post."""
+    post = Posts.query.get_or_404(user_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('list_users'))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
